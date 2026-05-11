@@ -1,5 +1,6 @@
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.entity.Curso;
 import java.awt.Component;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -31,17 +32,24 @@ public class ButtonEditor extends DefaultCellEditor {
         this.col = column;
         this.row = row;
         this.table = table;
-        button.setText("");
+        // 1. Instancia a entidade com o ID do curso existente
+        Curso curso = new Curso();
+        curso.setId(Long.parseLong(txtId.getText())); // O ID é essencial para edição
+        curso.setNome(txtNome.getText());
+        curso.setCodigoCurso(txtCodigo.getText());
+        curso.setAtivo(chkAtivo.isSelected());
 
         try {
-            if (column == 4) {
-                button.setIcon(new ImageIcon(getClass().getResource("/br/com/ifba/imagens/remover.png")));
-            } else if (column == 5) {
-                button.setIcon(new ImageIcon(getClass().getResource("/br/com/ifba/imagens/editar.png")));
-            }
+            entityManager.getTransaction().begin();
+            // O merge atualiza o registro se o ID já existir [cite: 114, 115]
+            entityManager.merge(curso); 
+            entityManager.getTransaction().commit();
+        
+            JOptionPane.showMessageDialog(this, "Curso atualizado com sucesso!");
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + e.getMessage());
         }
-
         return button;
     }
 

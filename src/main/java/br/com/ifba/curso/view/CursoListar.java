@@ -4,8 +4,13 @@
  */
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.entity.Curso;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 /**
  *
@@ -60,6 +65,8 @@ public class CursoListar extends javax.swing.JFrame {
         
     }
     
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamento_curso");
+    EntityManager entityManager = emf.createEntityManager();
 
   
     /**
@@ -106,6 +113,15 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
+        bntAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        bntAdicionar.setText("+");
+        bntAdicionar.setAlignmentY(0.0F);
+        bntAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntAdicionarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout backgroudLayout = new javax.swing.GroupLayout(backgroud);
         backgroud.setLayout(backgroudLayout);
         backgroudLayout.setHorizontalGroup(
@@ -123,11 +139,11 @@ public class CursoListar extends javax.swing.JFrame {
         backgroudLayout.setVerticalGroup(
             backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroudLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(48, 48, 48)
+                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                    .addComponent(bntAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128))
         );
@@ -155,6 +171,26 @@ public class CursoListar extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_txtPesquisarActionPerformed
+
+    private void bntAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAdicionarActionPerformed
+        // TODO add your handling code here:
+
+        Curso curso = new Curso();
+        curso.setNome(txtNome.getText());
+        curso.setCodigoCurso(txtCodigo.getText());
+        curso.setAtivo(chkAtivo.isSelected());
+ 
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(curso); 
+            entityManager.getTransaction().commit();
+        
+            JOptionPane.showMessageDialog(this, "Curso salvo com sucesso!");
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_bntAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
