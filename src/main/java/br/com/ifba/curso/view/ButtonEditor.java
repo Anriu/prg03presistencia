@@ -11,6 +11,10 @@ public class ButtonEditor extends DefaultCellEditor {
     private int col;
     private int row;
     private JTable table;
+    
+    
+    
+    
 
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
