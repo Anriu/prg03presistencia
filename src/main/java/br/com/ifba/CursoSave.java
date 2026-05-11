@@ -1,4 +1,4 @@
-package br.com.ifba;
+/*package br.com.ifba;
 
 import br.com.ifba.curso.entity.Curso;
 import jakarta.persistence.EntityManager;
@@ -30,4 +30,4 @@ public class CursoSave {
             emf.close();
         }
     }
-}
+}*/

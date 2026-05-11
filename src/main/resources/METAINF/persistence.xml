@@ -4,7 +4,7 @@
     <persistence-unit name="gerenciamento_curso">
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/prg03_gerenciamento_curso"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="root"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 

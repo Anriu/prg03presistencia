@@ -4,6 +4,9 @@
  */
 package br.com.ifba.curso.view;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JCheckBox;
+
 /**
  *
  * @author anriu
@@ -15,8 +18,31 @@ public class CursoListar extends javax.swing.JFrame {
      */
     public CursoListar() {
         initComponents();
+        
+        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
+
+    model.addRow(new Object[]{
+        "Análise e Desenv. de Sistemas", 
+        "ADS-01", 
+        "Superior Tecnológico", 
+        "IFBA", 
+    });
+    
+    model.addRow(new Object[]{
+    "Análise e Desenv. d...", "ADS-01", "Superior Tecnológico", "IFBA"
+    });
+        // Configura a coluna de Remover (índice 4)
+        tblDados.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        // Configura a coluna de Editar (índice 5)
+        tblDados.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        
     }
 
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +52,90 @@ public class CursoListar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        backgroud = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblDados = new javax.swing.JTable();
+        txtPesquisar = new javax.swing.JTextField();
+        bntAdicionar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        backgroud.setBackground(new java.awt.Color(20, 41, 58));
+
+        tblDados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "NOME", "QUANTIDADE", "DESCRIÇÃO", "FORNECEDOR", "REMOVEDOR", "EDITAR"
+            }
+        ));
+        tblDados.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblDadosAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jScrollPane1.setViewportView(tblDados);
+
+        txtPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesquisarActionPerformed(evt);
+            }
+        });
+
+        bntAdicionar.setText("jButton1");
+
+        javax.swing.GroupLayout backgroudLayout = new javax.swing.GroupLayout(backgroud);
+        backgroud.setLayout(backgroudLayout);
+        backgroudLayout.setHorizontalGroup(
+            backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroudLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroudLayout.createSequentialGroup()
+                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140)
+                        .addComponent(bntAdicionar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+        backgroudLayout.setVerticalGroup(
+            backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroudLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bntAdicionar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(backgroud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(backgroud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblDadosAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblDadosAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblDadosAncestorAdded
+
+    private void txtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +173,10 @@ public class CursoListar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel backgroud;
+    private javax.swing.JButton bntAdicionar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblDados;
+    private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
 }
