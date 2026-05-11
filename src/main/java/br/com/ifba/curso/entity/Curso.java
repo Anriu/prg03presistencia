@@ -9,26 +9,26 @@ import jakarta.persistence.Column;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cursos") // Define o nome da tabela como 'cursos' [cite: 331]
+@Table(name = "cursos") 
 public class Curso implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // Chave primária gerada pelo banco [cite: 261]
+    @GeneratedValue(strategy = GenerationType.AUTO) 
     private Long id;
 
-    @Column(name = "nome", nullable = false) // Campo obrigatório [cite: 335]
+    @Column(name = "nome", nullable = false) 
     private String nome;
 
-    @Column(name = "codigo_curso", nullable = false, unique = true) // Campo único [cite: 336, 337]
+    @Column(name = "codigo_curso", nullable = false, unique = true) 
     private String codigoCurso;
 
     @Column(name = "ativo")
     private boolean ativo;
 
-    // Construtor padrão exigido pela JPA
+  
     public Curso() {}
 
-    // Getters e Setters [cite: 216-230]
+   
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

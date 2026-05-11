@@ -18,7 +18,7 @@ public class CursoSave {
             curso.setAtivo(true);
 
             em.getTransaction().begin();
-            em.persist(curso); // Salva o objeto no banco [cite: 123]
+            em.persist(curso);
             em.getTransaction().commit();
 
             System.out.println("Curso salvo com sucesso!");
