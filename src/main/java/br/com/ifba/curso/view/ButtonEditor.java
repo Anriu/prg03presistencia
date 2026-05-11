@@ -2,11 +2,14 @@ package br.com.ifba.curso.view;
 
 import java.awt.Component;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ButtonEditor extends DefaultCellEditor {
 
     protected JButton button;
     private int col;
+    private int row;
+    private JTable table;
 
     public ButtonEditor(JCheckBox checkBox) {
         super(checkBox);
@@ -26,13 +29,15 @@ public class ButtonEditor extends DefaultCellEditor {
             boolean isSelected, int row, int column) {
 
         this.col = column;
+        this.row = row;
+        this.table = table;
         button.setText("");
 
         try {
             if (column == 4) {
-                button.setIcon(new ImageIcon(getClass().getResource("br/com/ifba/imagens/remover.png")));
+                button.setIcon(new ImageIcon(getClass().getResource("/br/com/ifba/imagens/remover.png")));
             } else if (column == 5) {
-                button.setIcon(new ImageIcon(getClass().getResource("br/com/ifba/imagens/editar.png")));
+                button.setIcon(new ImageIcon(getClass().getResource("/br/com/ifba/imagens/editar.png")));
             }
         } catch (Exception e) {
         }
@@ -49,10 +54,12 @@ public class ButtonEditor extends DefaultCellEditor {
                     JOptionPane.YES_NO_OPTION); 
 
             if (resposta == JOptionPane.YES_OPTION) {
-                System.out.println("Remoção confirmada!");
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                // Remove a linha da tabela usando o índice armazenado
+                model.removeRow(row);
             }
         } else if (col == 5) {
-            System.out.println("Edição disparada!");
+            // Lógica de edição (abrir tela) virá aqui
         }
 
         return "";

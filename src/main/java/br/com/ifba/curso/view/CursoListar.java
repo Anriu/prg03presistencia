@@ -29,8 +29,9 @@ public class CursoListar extends javax.swing.JFrame {
     });
     
     model.addRow(new Object[]{
-    "Análise e Desenv. d...", "ADS-01", "Superior Tecnológico", "IFBA"
+    "Ads", "ADS-01", "Superior Tecnológico", "IFBA"
     });
+    
         // Configura a coluna de Remover (índice 4)
         tblDados.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
         tblDados.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
@@ -40,7 +41,25 @@ public class CursoListar extends javax.swing.JFrame {
         tblDados.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
 
         
+        txtPesquisar.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+
+            private void filtrar() {
+                String texto = txtPesquisar.getText().toLowerCase();
+                DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
+                javax.swing.table.TableRowSorter<DefaultTableModel> sorter = new javax.swing.table.TableRowSorter<>(model);
+                tblDados.setRowSorter(sorter);
+        
+                // Filtra comparando com a primeira coluna (Nome)
+                sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texto, 0));
+            }
+        });  
+        
+        
     }
+    
 
   
     /**
@@ -87,8 +106,6 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
-        bntAdicionar.setText("jButton1");
-
         javax.swing.GroupLayout backgroudLayout = new javax.swing.GroupLayout(backgroud);
         backgroud.setLayout(backgroudLayout);
         backgroudLayout.setHorizontalGroup(
@@ -98,7 +115,7 @@ public class CursoListar extends javax.swing.JFrame {
                 .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroudLayout.createSequentialGroup()
                         .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140)
+                        .addGap(142, 142, 142)
                         .addComponent(bntAdicionar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(66, Short.MAX_VALUE))
@@ -109,7 +126,7 @@ public class CursoListar extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntAdicionar))
+                    .addComponent(bntAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(128, 128, 128))
@@ -135,6 +152,8 @@ public class CursoListar extends javax.swing.JFrame {
 
     private void txtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarActionPerformed
         // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_txtPesquisarActionPerformed
 
     /**
