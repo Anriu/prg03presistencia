@@ -4,39 +4,33 @@
  */
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.dao.CursoDao;
+import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import java.util.List;
 
 /**
  *
  * @author anriu
  */
+
+
+
+
 public class CursoListar extends javax.swing.JFrame {
 
     /**
      * Creates new form CursoListar
      */
+    
     public CursoListar() {
+        
         initComponents();
         
-        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
-
-    model.addRow(new Object[]{
-        "Análise e Desenv. de Sistemas", 
-        "ADS-01", 
-        "Superior Tecnológico", 
-        "IFBA", 
-    });
-    
-    model.addRow(new Object[]{
-    "Ads", "ADS-01", "Superior Tecnológico", "IFBA"
-    });
-    
+        listarCursos();
+        
         // Configura a coluna de Remover (índice 4)
         tblDados.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
         tblDados.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
@@ -64,11 +58,22 @@ public class CursoListar extends javax.swing.JFrame {
         
         
     }
-    
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("gerenciamento_curso");
-    EntityManager entityManager = emf.createEntityManager();
 
-  
+    public void listarCursos(){
+        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
+        CursoIDao cursos = new CursoDao();
+        model.setRowCount(0);
+        List<Curso> listaCursos = cursos.findAll();
+    
+        for (Curso curso : listaCursos) {
+            model.addRow(new Object[]{
+                curso.getNome(),
+                curso.getCodigoCurso()
+            });    
+        }
+
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,6 +88,7 @@ public class CursoListar extends javax.swing.JFrame {
         tblDados = new javax.swing.JTable();
         txtPesquisar = new javax.swing.JTextField();
         bntAdicionar = new javax.swing.JButton();
+        bntAtualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,18 +128,30 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
+        bntAtualizar.setText("Atualizar lista");
+        bntAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntAtualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout backgroudLayout = new javax.swing.GroupLayout(backgroud);
         backgroud.setLayout(backgroudLayout);
         backgroudLayout.setHorizontalGroup(
             backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroudLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
                 .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroudLayout.createSequentialGroup()
-                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(142, 142, 142)
-                        .addComponent(bntAdicionar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(backgroudLayout.createSequentialGroup()
+                                .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(142, 142, 142)
+                                .addComponent(bntAdicionar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(backgroudLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(bntAtualizar)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         backgroudLayout.setVerticalGroup(
@@ -145,7 +163,9 @@ public class CursoListar extends javax.swing.JFrame {
                     .addComponent(bntAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128))
+                .addGap(85, 85, 85)
+                .addComponent(bntAtualizar)
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,23 +194,15 @@ public class CursoListar extends javax.swing.JFrame {
 
     private void bntAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAdicionarActionPerformed
         // TODO add your handling code here:
-
-        Curso curso = new Curso();
-        curso.setNome(txtNome.getText());
-        curso.setCodigoCurso(txtCodigo.getText());
-        curso.setAtivo(chkAtivo.isSelected());
- 
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(curso); 
-            entityManager.getTransaction().commit();
-        
-            JOptionPane.showMessageDialog(this, "Curso salvo com sucesso!");
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage());
-        }
+        DadosCurso dadosCuros = new DadosCurso();
+        dadosCuros.setVisible(true);
+        listarCursos();
     }//GEN-LAST:event_bntAdicionarActionPerformed
+
+    private void bntAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAtualizarActionPerformed
+        // TODO add your handling code here:
+        listarCursos();
+    }//GEN-LAST:event_bntAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,6 +242,7 @@ public class CursoListar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroud;
     private javax.swing.JButton bntAdicionar;
+    private javax.swing.JButton bntAtualizar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDados;
     private javax.swing.JTextField txtPesquisar;

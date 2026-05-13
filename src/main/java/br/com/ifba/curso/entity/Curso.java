@@ -1,24 +1,42 @@
 package br.com.ifba.curso.entity;
-
-import jakarta.persistence.*;
+import br.com.ifba.infrastructure.entity.PersistenceEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "cursos")
-public class Curso {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Curso extends PersistenceEntity implements Serializable {
+
+    @Column(name = "nome", nullable = false)
     private String nome;
+
+    @Column(name = "codigo_curso", nullable = false)
     private String codigoCurso;
+
+    @Column(name = "ativo")
     private boolean ativo;
 
-    // Getters e Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-    public String getCodigoCurso() { return codigoCurso; }
-    public void setCodigoCurso(String codigoCurso) { this.codigoCurso = codigoCurso; }
-    public boolean isAtivo() { return ativo; }
-    public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCodigoCurso() {
+        return codigoCurso;
+    }
+
+    public void setCodigoCurso(String codigoCurso) {
+        this.codigoCurso = codigoCurso;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }
