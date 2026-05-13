@@ -1,7 +1,7 @@
 package br.com.ifba.curso.view;
 
-import br.com.ifba.curso.dao.CursoDao;
-import br.com.ifba.curso.dao.CursoIDao;
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.entity.Curso;
 import java.awt.Component;
 import javax.swing.*;
@@ -66,6 +66,7 @@ public class ButtonEditor extends DefaultCellEditor {
 
         // Verifica se a coluna clicada é a de remover
         if (col == 6) {
+
             int resposta = JOptionPane.showConfirmDialog(
                     button,
                     "Deseja realmente excluir o curso?",
@@ -76,21 +77,27 @@ public class ButtonEditor extends DefaultCellEditor {
             // Se o usuário confirmar, remove o curso
             if (resposta == JOptionPane.YES_OPTION) {
 
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                DefaultTableModel model =
+                        (DefaultTableModel) table.getModel();
 
                 // Pega o ID do curso na tabela
-                Long id = Long.valueOf(model.getValueAt(row, 0).toString());
+                Long id = Long.valueOf(
+                        model.getValueAt(row, 0).toString()
+                );
 
-                CursoIDao cursoDao = new CursoDao();
+                // Cria o controller
+                CursoIController cursoController =
+                        new CursoController();
 
                 // Busca o curso pelo ID
-                Curso curso = cursoDao.findById(id);
+                Curso curso = cursoController.findById(id);
 
                 // Remove o curso do banco
-                cursoDao.delete(curso);
+                cursoController.delete(curso);
 
                 // Remove a linha da tabela
                 SwingUtilities.invokeLater(() -> {
+
                     if (row >= 0 && row < model.getRowCount()) {
                         model.removeRow(row);
                     }
@@ -100,15 +107,20 @@ public class ButtonEditor extends DefaultCellEditor {
         // Verifica se a coluna clicada é a de editar
         } else if (col == 7) {
 
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            DefaultTableModel model =
+                    (DefaultTableModel) table.getModel();
 
             // Pega o ID do curso na tabela
-            Long id = Long.valueOf(model.getValueAt(row, 0).toString());
+            Long id = Long.valueOf(
+                    model.getValueAt(row, 0).toString()
+            );
 
-            CursoIDao cursoDao = new CursoDao();
+            // Cria o controller
+            CursoIController cursoController =
+                    new CursoController();
 
             // Busca o curso pelo ID
-            Curso curso = cursoDao.findById(id);
+            Curso curso = cursoController.findById(id);
 
             // Abre a tela de edição do curso
             DadosCurso tela = new DadosCurso(curso);

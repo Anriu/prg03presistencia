@@ -4,6 +4,8 @@
  */
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.dao.CursoDao;
 import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
@@ -75,32 +77,43 @@ public class CursoListar extends javax.swing.JFrame {
         
     }
 
-    public void listarCursos(){
-        
-        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
-        CursoIDao cursos = new CursoDao();
-        model.setRowCount(0);
-        List<Curso> listaCursos = cursos.findAll();
-    
-        for (Curso curso : listaCursos) {
-            model.addRow(new Object[]{
-                curso.getId(),
-                curso.getNome(),
-                curso.getCodigoCurso()
-            });    
-        }
+    public void listarCursos() {
 
+        // Pega o modelo da tabela
+        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
+
+        // Cria o controller responsável pelas operações do curso
+        CursoIController cursoController = new CursoController();
+
+        // Limpa todas as linhas da tabela
+        model.setRowCount(0);
+
+        // Busca todos os cursos cadastrados
+        List<Curso> listaCursos = cursoController.findAll();
+
+        // Percorre a lista de cursos
+        for (Curso curso : listaCursos) {
+
+        // Adiciona os dados do curso na tabela
+        model.addRow(new Object[]{
+            curso.getId(),
+            curso.getNome(),
+            curso.getCodigoCurso()
+        });
     }
+}
     
     private void filtrar() {
-    String texto = txtPesquisar.getText();
+        // Pega o texto digitado no campo de pesquisa
+        String texto = txtPesquisar.getText();
 
-    if (texto.trim().isEmpty()) {
-        sorter.setRowFilter(null);
-    } else {
-        sorter.setRowFilter(
-                RowFilter.regexFilter("(?i)" + texto, 1)
-        );
+        if (texto.trim().isEmpty()) {
+            // Remove o filtro e exibe todos os dados
+            sorter.setRowFilter(null);
+        } else {
+            // Filtra os dados da tabela ignorando letras maiúsculas/minúsculas
+            // A coluna 1 representa a coluna "Nome"
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto, 1));
     }
 }
     

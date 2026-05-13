@@ -4,6 +4,8 @@
  */
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.dao.CursoDao;
 import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
@@ -155,13 +157,12 @@ public class DadosCurso extends javax.swing.JFrame {
         } else {
             curso.setAtivo(false);
         }
-
-        CursoIDao cursoDao = new CursoDao();
+        CursoIController cursoController = new CursoController();
 
         if (curso.getId() == null) {
-            cursoDao.save(curso);
+            cursoController.save(curso);
         } else {
-            cursoDao.update(curso);
+            cursoController.update(curso);
         }
 
         this.dispose();
