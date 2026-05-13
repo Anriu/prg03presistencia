@@ -24,10 +24,10 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
         setText("");
 
         try {
-            if (column == 4) {
-                setIcon(new ImageIcon(getClass().getResource("br/com/ifba/imagens/remover.png")));
-            } else if (column == 5) {
-                setIcon(new ImageIcon(getClass().getResource("br/com/ifba/imagens/editar.png")));
+            if (column == 5) {
+                setIcon(new ImageIcon(getClass().getResource("imagens/remover.png")));
+            } else if (column == 6) {
+                setIcon(new ImageIcon(getClass().getResource("imagens/editar.png")));
             }
         } catch (Exception e) {
         }

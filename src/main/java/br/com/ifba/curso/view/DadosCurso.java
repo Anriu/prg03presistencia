@@ -17,10 +17,29 @@ public class DadosCurso extends javax.swing.JFrame {
     /**
      * Creates new form DadosCurso
      */
+    private Curso curso;
+    
     public DadosCurso() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.curso = new Curso();
     }
+    
+    public DadosCurso(Curso curso) {
+        initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.curso = curso;
 
+        txtNome.setText(curso.getNome());
+        txtCodigo.setText(curso.getCodigoCurso());
+
+        if (curso.isAtivo()) {
+            spnAtivo.setValue("Sim");
+        } else {
+            spnAtivo.setValue("Não");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,21 +146,24 @@ public class DadosCurso extends javax.swing.JFrame {
     private void bntSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSalvarActionPerformed
         // TODO add your handling code here:
         
-        
-        Curso curso = new Curso();
-       
+
         curso.setNome(txtNome.getText());
         curso.setCodigoCurso(txtCodigo.getText());
         
-        if("sim".equals(spnAtivo.getValue().toString())){
-           curso.setAtivo(true); 
-        }else{
-           curso.setAtivo(false); 
+        if ("sim".equals(spnAtivo.getValue().toString())) {
+            curso.setAtivo(true);
+        } else {
+            curso.setAtivo(false);
         }
-          
+
         CursoIDao cursoDao = new CursoDao();
-        cursoDao.save(curso);
-        
+
+        if (curso.getId() == null) {
+            cursoDao.save(curso);
+        } else {
+            cursoDao.update(curso);
+        }
+
         this.dispose();
     }//GEN-LAST:event_bntSalvarActionPerformed
 

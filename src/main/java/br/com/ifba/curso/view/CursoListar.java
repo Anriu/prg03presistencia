@@ -10,13 +10,13 @@ import br.com.ifba.curso.entity.Curso;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JCheckBox;
 import java.util.List;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author anriu
  */
-
-
 
 
 public class CursoListar extends javax.swing.JFrame {
@@ -25,41 +25,58 @@ public class CursoListar extends javax.swing.JFrame {
      * Creates new form CursoListar
      */
     
+    private TableRowSorter<DefaultTableModel> sorter;
+            
     public CursoListar() {
         
         initComponents();
         
         listarCursos();
         
-        // Configura a coluna de Remover (índice 4)
-        tblDados.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
-        tblDados.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
+        // Configura a coluna de Remover (índice 6)
+        tblDados.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
 
-        // Configura a coluna de Editar (índice 5)
-        tblDados.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-        tblDados.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
+        // Configura a coluna de Editar (índice 7)
+        tblDados.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+        tblDados.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDados.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDados.getColumnModel().getColumn(0).setWidth(0);
         
+        tblDados.getColumnModel().getColumn(3).setMinWidth(0);
+        tblDados.getColumnModel().getColumn(3).setMaxWidth(0);
+        tblDados.getColumnModel().getColumn(3).setWidth(0);
+        
+        
+        DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
+
+        sorter = new TableRowSorter<>(model);
+        tblDados.setRowSorter(sorter);
+
         txtPesquisar.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
-            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
-            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+        @Override
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
 
-            private void filtrar() {
-                String texto = txtPesquisar.getText().toLowerCase();
-                DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
-                javax.swing.table.TableRowSorter<DefaultTableModel> sorter = new javax.swing.table.TableRowSorter<>(model);
-                tblDados.setRowSorter(sorter);
-        
-                // Filtra comparando com a primeira coluna (Nome)
-                sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texto, 0));
-            }
-        });  
+        @Override
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+
+        @Override
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+        });
         
         
     }
 
     public void listarCursos(){
+        
         DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
         CursoIDao cursos = new CursoDao();
         model.setRowCount(0);
@@ -67,11 +84,24 @@ public class CursoListar extends javax.swing.JFrame {
     
         for (Curso curso : listaCursos) {
             model.addRow(new Object[]{
+                curso.getId(),
                 curso.getNome(),
                 curso.getCodigoCurso()
             });    
         }
 
+    }
+    
+    private void filtrar() {
+    String texto = txtPesquisar.getText();
+
+    if (texto.trim().isEmpty()) {
+        sorter.setRowFilter(null);
+    } else {
+        sorter.setRowFilter(
+                RowFilter.regexFilter("(?i)" + texto, 1)
+        );
+    }
 }
     
     /**
@@ -99,7 +129,7 @@ public class CursoListar extends javax.swing.JFrame {
 
             },
             new String [] {
-                "NOME", "QUANTIDADE", "DESCRIÇÃO", "FORNECEDOR", "REMOVEDOR", "EDITAR"
+                "ID", "NOME", "CODIGO", "QUANTIDADE", "DESCRIÇÃO", "FORNECEDOR", "REMOVEDOR", "EDITAR"
             }
         ));
         tblDados.addAncestorListener(new javax.swing.event.AncestorListener() {
