@@ -65,7 +65,7 @@ public class ButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
 
         // Verifica se a coluna clicada é a de remover
-        if (col == 6) {
+        if (col == 3) {
 
             int resposta = JOptionPane.showConfirmDialog(
                     button,
@@ -105,7 +105,7 @@ public class ButtonEditor extends DefaultCellEditor {
             }
 
         // Verifica se a coluna clicada é a de editar
-        } else if (col == 7) {
+        } else if (col == 4) {
 
             DefaultTableModel model =
                     (DefaultTableModel) table.getModel();

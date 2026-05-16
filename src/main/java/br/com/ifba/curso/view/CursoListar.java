@@ -6,8 +6,6 @@ package br.com.ifba.curso.view;
 
 import br.com.ifba.curso.controller.CursoController;
 import br.com.ifba.curso.controller.CursoIController;
-import br.com.ifba.curso.dao.CursoDao;
-import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JCheckBox;
@@ -35,21 +33,30 @@ public class CursoListar extends javax.swing.JFrame {
         
         listarCursos();
         
-        // Configura a coluna de Remover (índice 6)
-        tblDados.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-        tblDados.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
-
-        // Configura a coluna de Editar (índice 7)
-        tblDados.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
-        tblDados.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox()));
-
-        tblDados.getColumnModel().getColumn(0).setMinWidth(0);
-        tblDados.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblDados.getColumnModel().getColumn(0).setWidth(0);
         
-        tblDados.getColumnModel().getColumn(3).setMinWidth(0);
-        tblDados.getColumnModel().getColumn(3).setMaxWidth(0);
-        tblDados.getColumnModel().getColumn(3).setWidth(0);
+        setSize(900, 737);
+        setResizable(false);
+        setLocationRelativeTo(null);
+    
+        tblDados.setRowHeight(35);
+        
+        // Configura a coluna de Remover (índice 3)
+        tblDados.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        // Configura a coluna de Editar (índice 4)
+        tblDados.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        tblDados.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
+        
+        
+        tblDados.getColumnModel().getColumn(0).setMaxWidth(70);
+        tblDados.getColumnModel().getColumn(0).setMinWidth(70);
+        
+        tblDados.getColumnModel().getColumn(3).setMaxWidth(80);
+        tblDados.getColumnModel().getColumn(3).setMinWidth(80);
+
+        tblDados.getColumnModel().getColumn(4).setMaxWidth(80);
+        tblDados.getColumnModel().getColumn(4).setMinWidth(80);
         
         
         DefaultTableModel model = (DefaultTableModel) tblDados.getModel();
@@ -132,17 +139,22 @@ public class CursoListar extends javax.swing.JFrame {
         txtPesquisar = new javax.swing.JTextField();
         bntAdicionar = new javax.swing.JButton();
         bntAtualizar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         backgroud.setBackground(new java.awt.Color(20, 41, 58));
+        backgroud.setPreferredSize(new java.awt.Dimension(900, 700));
 
+        tblDados.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tblDados.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         tblDados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "NOME", "CODIGO", "QUANTIDADE", "DESCRIÇÃO", "FORNECEDOR", "REMOVEDOR", "EDITAR"
+                "ID", "NOME", "CODIGO", "REMOVER", "EDITAR"
             }
         ));
         tblDados.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -162,8 +174,8 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
-        bntAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        bntAdicionar.setText("+");
+        bntAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bntAdicionar.setText("ADICIONAR CURSO");
         bntAdicionar.setAlignmentY(0.0F);
         bntAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +183,7 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
+        bntAtualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         bntAtualizar.setText("Atualizar lista");
         bntAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,37 +191,50 @@ public class CursoListar extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("CURSOS");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("PESQUISA POR NOME:");
+
         javax.swing.GroupLayout backgroudLayout = new javax.swing.GroupLayout(backgroud);
         backgroud.setLayout(backgroudLayout);
         backgroudLayout.setHorizontalGroup(
             backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroudLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(401, 401, 401))
             .addGroup(backgroudLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
                 .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(bntAtualizar)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(backgroudLayout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backgroudLayout.createSequentialGroup()
-                                .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(142, 142, 142)
-                                .addComponent(bntAdicionar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(backgroudLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(bntAtualizar)))
+                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(bntAdicionar)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         backgroudLayout.setVerticalGroup(
             backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroudLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(backgroudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bntAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPesquisar))
+                .addGap(45, 45, 45)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
+                .addGap(45, 45, 45)
                 .addComponent(bntAtualizar)
-                .addGap(20, 20, 20))
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,7 +245,7 @@ public class CursoListar extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backgroud, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(backgroud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -286,6 +312,8 @@ public class CursoListar extends javax.swing.JFrame {
     private javax.swing.JPanel backgroud;
     private javax.swing.JButton bntAdicionar;
     private javax.swing.JButton bntAtualizar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDados;
     private javax.swing.JTextField txtPesquisar;

@@ -29,20 +29,22 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
         // Remove qualquer texto do botão
         setText("");
 
-        try {
-            // Define o ícone da coluna de remover
-            if (column == 5) {
-                setIcon(new ImageIcon(getClass().getResource("imagens/remover.png")));
+    try {
 
-            // Define o ícone da coluna de editar
-            } else if (column == 6) {
-                setIcon(new ImageIcon(getClass().getResource("imagens/editar.png")));
-            }
-        } catch (Exception e) {
-            // Evita erro caso a imagem não seja encontrada
+        // Emoji de excluir
+        if (column == 3) {
+            setText("Excluir");
+
+        // Emoji de editar
+        } else if (column == 4) {
+            setText("Editar");
         }
 
-        // Retorna o botão para ser exibido na tabela
-        return this;
+        } catch (Exception e) {
+    // Evita erros
+    }
+
+    // Retorna o botão para ser exibido na tabela
+    return this;
     }
 }
